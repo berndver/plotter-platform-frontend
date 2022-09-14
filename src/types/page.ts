@@ -1,5 +1,5 @@
 type Page = {
-    route: string
-}
+  route: string;
+};
 
 export default Page;
