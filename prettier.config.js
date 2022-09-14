@@ -1,3 +1,4 @@
 module.exports = {
-    semi: true,
-}
+  semi: true,
+  bracketSpacing: true,
+};

@@ -1,25 +1,28 @@
-import {FunctionComponent, useCallback} from "react";
-import NavigationBar from "../components/navigation-bar/NavigationBar";
-import {Button, Container, Typography} from "@mui/material";
-import microsoftAuthProvider from "../authentication/microsoftAuthProvider";
+import { FunctionComponent, useEffect } from "react";
+import { Button } from "@mui/material";
+import useMicrosoftLoginHandler from "../hooks/authentication/useMicrosoftLoginHandler";
+import useAuthentication from "../hooks/authentication/useAuthentication";
+import { useNavigate } from "react-router-dom";
+import AuthenticationStatus from "../constants/authenticationStatus";
 
 const LoginPage: FunctionComponent = () => {
-    const handleMicrosoftLogin = useCallback(async () => {
-        const auth = await microsoftAuthProvider.loginPopup({
-            scopes: [],
-            redirectUri: "http://localhost:3000/blank.html",
-            authority: 'https://login.microsoftonline.com/3d115e87-de25-47ee-ba96-9408b3b2ea9d'
-        });
-    }, [])
+  const navigate = useNavigate();
 
-    return <div>
-        <NavigationBar/>
-        <Container>
-           <Button onClick={handleMicrosoftLogin}>
-               Login with Microsoft
-           </Button>
-        </Container>
+  const [authStatus] = useAuthentication();
+  const [handleMicrosoftLogin] = useMicrosoftLoginHandler({
+    redirectPath: "/",
+  });
+
+  useEffect(() => {
+    if (authStatus !== AuthenticationStatus.Authenticated) return;
+    navigate({ pathname: "/" });
+  }, []);
+
+  return (
+    <div>
+      <Button onClick={handleMicrosoftLogin}>Login with Microsoft</Button>
     </div>
-}
+  );
+};
 
 export default LoginPage;
