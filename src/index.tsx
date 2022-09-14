@@ -4,6 +4,8 @@ import App from "./components/App";
 import reportWebVitals from "./utils/reportWebVitals";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { MsalProvider } from "@azure/msal-react";
+import microsoftAuthProvider from "./utils/authentication/microsoftAuthProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,7 +13,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <MsalProvider instance={microsoftAuthProvider}>
+        <App />
+      </MsalProvider>
     </Provider>
   </React.StrictMode>
 );

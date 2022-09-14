@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { AuthenticationSliceState } from "../../types/authentication";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AuthenticationSliceState, User } from "../../types/authentication";
 import AuthenticationStatus from "../../constants/authenticationStatus";
-import { checkLogin, logout, microsoftLogin } from "./actions";
+import { checkLogin, logout } from "./actions";
 import authenticationStatus from "../../constants/authenticationStatus";
 
 const initialState: AuthenticationSliceState = {
@@ -11,25 +11,16 @@ const initialState: AuthenticationSliceState = {
 const slice = createSlice({
   name: "authentication",
   initialState,
-  reducers: {},
+  reducers: {
+    updateEntity: (state, action: PayloadAction<User | undefined>) => {
+      state.entity = action.payload;
+    },
+    updateStatus: (state, action: PayloadAction<AuthenticationStatus>) => {
+      state.status = action.payload;
+    },
+  },
   extraReducers: (builder) =>
     builder
-      .addCase(microsoftLogin.pending, (state) => {
-        state.status = AuthenticationStatus.Loading;
-      })
-      .addCase(microsoftLogin.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.entity = action.payload;
-          state.status = authenticationStatus.Authenticated;
-        } else {
-          state.entity = undefined;
-          state.status = authenticationStatus.Unauthenticated;
-        }
-      })
-      .addCase(microsoftLogin.rejected, (state, action) => {
-        state.entity = undefined;
-        state.status = AuthenticationStatus.Error;
-      })
       .addCase(checkLogin.pending, (state) => {
         state.status = AuthenticationStatus.Loading;
       })
@@ -52,4 +43,5 @@ const slice = createSlice({
       }),
 });
 
-export default slice.reducer;
+export const { updateStatus, updateEntity } = slice.actions;
+export const { reducer } = slice;
