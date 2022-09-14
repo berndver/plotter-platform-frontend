@@ -16,7 +16,7 @@ const LoginPage: FunctionComponent = () => {
   useEffect(() => {
     if (authStatus !== AuthenticationStatus.Authenticated) return;
     navigate({ pathname: "/" });
-  }, []);
+  }, [authStatus, navigate]);
 
   return (
     <div>
