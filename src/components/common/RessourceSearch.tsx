@@ -1,14 +1,24 @@
 import { FunctionComponent } from "react";
-import { Stack, TextField } from "@mui/material";
+import { Paper, Stack, styled, TextField } from "@mui/material";
+
+const SearchFieldWrapper = styled(Paper)`
+  flex: 1;
+`;
+
+const SearchField = styled(TextField)`
+  width: 100%;
+`;
 
 const RessourceSearch: FunctionComponent = () => {
   return (
     <Stack direction="row">
-      <TextField
-        sx={{ flex: 1 }}
-        variant="outlined"
-        placeholder="e.g. holdiay"
-      />
+      <SearchFieldWrapper>
+        <SearchField
+          variant="outlined"
+          placeholder="Suche nach Schriften, Illustrationen und Designs"
+          color="primary"
+        />
+      </SearchFieldWrapper>
     </Stack>
   );
 };
