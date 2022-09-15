@@ -12,8 +12,6 @@ const useMicrosoftLoginHandler = (options: { redirectPath?: string }) => {
 
   const { instance, accounts } = useMsal();
 
-  console.log(accounts);
-
   const microsoftLoginHandler = useCallback(async () => {
     try {
       if (accounts.length > 0) {
@@ -23,14 +21,12 @@ const useMicrosoftLoginHandler = (options: { redirectPath?: string }) => {
         return;
       }
 
-      const auth = await instance.ssoSilent({
+      await instance.loginRedirect({
         scopes: [],
         redirectUri: "http://localhost:3000/",
         authority:
           "https://login.microsoftonline.com/819d0330-fb4c-48d9-996e-29be018ee9b5",
       });
-
-      console.log("auth", auth);
     } catch (e) {
       console.error(e);
       dispatch(updateEntity(undefined));
