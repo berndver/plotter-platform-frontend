@@ -17,7 +17,7 @@ import useIsWideWidth from "../../hooks/media-queries/useIsWideWidth";
 const NavigationBar: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const [authStatus] = useAuthentication();
+  const { status } = useAuthentication();
   const [handleLogout] = useLogoutHandler({});
   const [hideMenu] = useIsWideWidth();
 
@@ -48,7 +48,7 @@ const NavigationBar: FunctionComponent = () => {
           Plotter Platform
         </Button>
         <Container sx={{ flex: 1 }} />
-        {authStatus !== AuthenticationStatus.Authenticated && (
+        {status !== AuthenticationStatus.Authenticated && (
           <Button
             color="inherit"
             onClick={() => handleRouteClick(pages.login.route)}
@@ -56,7 +56,7 @@ const NavigationBar: FunctionComponent = () => {
             Login
           </Button>
         )}
-        {authStatus === AuthenticationStatus.Authenticated && (
+        {status === AuthenticationStatus.Authenticated && (
           <Button color="inherit" onClick={handleLogoutClick}>
             Logout
           </Button>
