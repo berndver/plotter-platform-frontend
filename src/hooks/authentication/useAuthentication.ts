@@ -9,7 +9,7 @@ const useAuthentication = () => {
   const status = useAppSelector(selectStatus);
   const currentUser = useAppSelector(selectCurrentUser);
 
-  return useMemo(() => [status, currentUser], [currentUser, status]);
+  return useMemo(() => ({ status, currentUser }), [currentUser, status]);
 };
 
 export default useAuthentication;

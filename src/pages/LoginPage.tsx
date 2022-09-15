@@ -1,27 +1,37 @@
-import { FunctionComponent, useEffect } from "react";
-import { Button } from "@mui/material";
+import {FunctionComponent, useEffect, useState} from "react";
+import { Button, Stack, Typography } from "@mui/material";
 import useMicrosoftLoginHandler from "../hooks/authentication/useMicrosoftLoginHandler";
 import useAuthentication from "../hooks/authentication/useAuthentication";
 import { useNavigate } from "react-router-dom";
 import AuthenticationStatus from "../constants/authenticationStatus";
+import PageContainer from "../components/common/PageContainer";
 
 const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
 
-  const [authStatus] = useAuthentication();
-  const [handleMicrosoftLogin] = useMicrosoftLoginHandler({
+  const { status } = useAuthentication();
+  const { handleMicrosoftLogin } = useMicrosoftLoginHandler({
     redirectPath: "/",
   });
 
   useEffect(() => {
-    if (authStatus !== AuthenticationStatus.Authenticated) return;
+    if (status !== AuthenticationStatus.Authenticated) return;
     navigate({ pathname: "/" });
-  }, [authStatus, navigate]);
+  }, [status, navigate]);
 
   return (
-    <div>
-      <Button onClick={handleMicrosoftLogin}>Login with Microsoft</Button>
-    </div>
+    <PageContainer>
+      <Stack flexDirection="column" justifyContent="center" alignItems="center">
+        <Typography variant="h6">Weiter Mit</Typography>
+        <Button
+          onClick={handleMicrosoftLogin}
+          variant="contained"
+          color="primary"
+        >
+          Login with Microsoft
+        </Button>
+      </Stack>
+    </PageContainer>
   );
 };
 

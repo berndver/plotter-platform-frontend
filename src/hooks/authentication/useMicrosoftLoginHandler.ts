@@ -2,7 +2,7 @@ import { useAppDispatch } from "../store";
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMsal } from "@azure/msal-react";
-import { updateEntity, updateStatus } from "../../store/authentication/slice";
+import { updateEntity, updateStatus } from "../../store/authentication/actions";
 import AuthenticationStatus from "../../constants/authenticationStatus";
 import pages from "../../constants/pages";
 
@@ -12,7 +12,7 @@ const useMicrosoftLoginHandler = (options: { redirectPath?: string }) => {
 
   const { instance, accounts } = useMsal();
 
-  const microsoftLoginHandler = useCallback(async () => {
+  const handleMicrosoftLogin = useCallback(async () => {
     try {
       if (accounts.length > 0) {
         dispatch(updateEntity(accounts[0]));
@@ -34,7 +34,7 @@ const useMicrosoftLoginHandler = (options: { redirectPath?: string }) => {
     }
   }, [accounts, dispatch, instance, navigate, options.redirectPath]);
 
-  return [microsoftLoginHandler];
+  return { handleMicrosoftLogin };
 };
 
 export default useMicrosoftLoginHandler;
