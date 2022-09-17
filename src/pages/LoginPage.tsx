@@ -1,4 +1,4 @@
-import {FunctionComponent, useEffect, useState} from "react";
+import { FunctionComponent, useEffect } from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import useMicrosoftLoginHandler from "../hooks/authentication/useMicrosoftLoginHandler";
 import useAuthentication from "../hooks/authentication/useAuthentication";
